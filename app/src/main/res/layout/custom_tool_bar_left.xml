@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backIV"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:padding="@dimen/_3sdp"
+            android:src="@drawable/ic_back"
+            android:layout_marginStart="@dimen/_20sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/_15sdp"
+            app:layout_constraintStart_toEndOf="@+id/backIV"
+            app:layout_constraintTop_toTopOf="@+id/backIV"
+            app:layout_constraintBottom_toBottomOf="@+id/backIV"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/titleMTB"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:gravity="center"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:text="Morning Delivery"
+                app:layout_constraintBottom_toBottomOf="@+id/backIV"
+                app:layout_constraintStart_toEndOf="@+id/backIV"
+                app:layout_constraintTop_toTopOf="@+id/backIV"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/deliverMTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:gravity="center"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/gry"
+                android:text="Deliver on"
+                android:textSize="@dimen/_9ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/backIV"
+                app:layout_constraintStart_toEndOf="@+id/backIV"
+                app:layout_constraintTop_toTopOf="@+id/backIV"
+                 />
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/line_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="@dimen/_2sdp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

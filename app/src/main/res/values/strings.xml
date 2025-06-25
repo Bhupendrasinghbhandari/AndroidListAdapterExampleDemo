@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AndroidListAdapterExampleDemo</string>
+
+    <string name="something_went_wrong">Oh..Something Went Wrong.Please Try Again.</string>
+    <string name="connectErr">Failed To Connect To Server. Please Check Your Internet Connection.</string>
+    <string name="timeoutErr">Failed To connect To server. Please Try After Sometime.</string>
+    <string name="timeoutErr_">Failed To connect To server. Sorry There Was An Error Please Try Again.</string>
+    <string name="noInternetErr">Please check your internet connection and try again.</string>
+    <string name="your_account_login">Your account has been logged into another device..</string>
+</resources>
