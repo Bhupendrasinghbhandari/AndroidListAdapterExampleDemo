@@ -10,69 +10,66 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
-        >
+        android:background="@color/white">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/backIV"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:padding="@dimen/_3sdp"
             android:src="@drawable/ic_back"
-            android:layout_marginStart="@dimen/_20sdp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
-            app:layout_constraintStart_toEndOf="@+id/backIV"
-            app:layout_constraintTop_toTopOf="@+id/backIV"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/backIV"
-            android:layout_height="wrap_content">
+            app:layout_constraintStart_toEndOf="@+id/backIV"
+            app:layout_constraintTop_toTopOf="@+id/backIV">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/titleMTB"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:gravity="center"
                 android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="Morning Delivery"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
-                android:text="Morning Delivery"
                 app:layout_constraintBottom_toBottomOf="@+id/backIV"
                 app:layout_constraintStart_toEndOf="@+id/backIV"
-                app:layout_constraintTop_toTopOf="@+id/backIV"
-                />
+                app:layout_constraintTop_toTopOf="@+id/backIV" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/deliverMTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:gravity="center"
                 android:fontFamily="@font/poppins_medium"
-                android:textColor="@color/gry"
+                android:gravity="center"
                 android:text="Deliver on"
+                android:textColor="@color/gry"
                 android:textSize="@dimen/_9ssp"
                 app:layout_constraintBottom_toBottomOf="@+id/backIV"
                 app:layout_constraintStart_toEndOf="@+id/backIV"
-                app:layout_constraintTop_toTopOf="@+id/backIV"
-                 />
+                app:layout_constraintTop_toTopOf="@+id/backIV" />
 
         </LinearLayout>
 
 
-
         <View
             android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
             android:background="@color/line_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="@dimen/_2sdp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

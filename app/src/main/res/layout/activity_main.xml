@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="@dimen/_10sdp"
+        android:background="@color/line_color"
         tools:context=".ui.MainActivity">
 
 
@@ -32,11 +33,13 @@
                 android:id="@+id/categoryItemCL"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight=".4">
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight=".3">
 
                 <View
                     android:id="@+id/viewVW"
                     android:layout_width="@dimen/_2sdp"
+                    android:visibility="gone"
                     android:layout_height="match_parent"
                     android:background="@color/line_color"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -61,15 +64,20 @@
                     <!-- Floating vertical indicator -->
                     <View
                         android:id="@+id/categoryIndicator"
-                        android:layout_width="@dimen/_3sdp"
-                        android:layout_height="@dimen/_70sdp"
+                        android:layout_width="3dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="end"
+                        android:layout_marginTop="10dp"
                         android:layout_marginStart="2dp"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_minus1sdp"
                         android:background="@drawable/green_background_view"
                         android:translationY="0dp"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
+
+
+
+
+
                 </FrameLayout>
 
 
@@ -80,9 +88,8 @@
                 android:id="@+id/recyclerRV"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.6"
+                android:layout_weight="1.7"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/_40sdp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_layout" />
 

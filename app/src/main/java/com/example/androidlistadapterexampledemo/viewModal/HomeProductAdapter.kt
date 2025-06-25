@@ -2,6 +2,7 @@ package com.example.androidlistadapterexampledemo.viewModal
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.example.androidlistadapterexampledemo.utils.loadImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class HomeProductAdapter : ListAdapter<ProductVariantInfo, HomeProductAdapter.ViewHolder>(object :
@@ -39,24 +41,25 @@ class HomeProductAdapter : ListAdapter<ProductVariantInfo, HomeProductAdapter.Vi
     }
 
 
-    class ViewHolder(val binding: ListItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
+  class ViewHolder(val binding: ListItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
+
+
+  }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 //        holder.setIsRecyclable(false)
-        CoroutineScope(Dispatchers.Main).launch {
-            val itemData = getItem(position)
-//            holder.binding.imageIV.loadImage(itemData.imageUrl)
-            holder.binding.productNameTV.text = itemData.name
-            holder.binding.weightMTV.text = itemData.productInfo?.get(0)?.displayUnit ?: ""
-            holder.binding.memberPriceTextMTV.text =
-                (itemData.productInfo?.get(0)?.priceInfo?.memberPrice ?: 0).toString().plus(
-                    itemData.productInfo?.get(0)?.priceInfo?.membershipProductPriceTitle ?: ""
-                )
-            holder.binding.amountMTV.text =
-                (itemData.productInfo?.get(0)?.priceInfo?.sellingPrice ?: 0).toString().plus("/")
-                    .plus(itemData.productInfo?.get(0)?.displayUnit ?: "")
-        }
-
+        val itemData = getItem(position)
+//        holder.binding.imageIV.loadImage(itemData?.imageUrl?:"")
+        val memberPrice = (itemData?.productInfo?.get(0)?.priceInfo?.memberPrice ?: 0).toString()
+            .plus(itemData?.productInfo?.get(0)?.priceInfo?.membershipProductPriceTitle ?: "")
+        val amount =
+            (itemData?.productInfo?.get(0)?.priceInfo?.sellingPrice ?: 0).toString().plus("/")
+                .plus(itemData?.productInfo?.get(0)?.displayUnit ?: "")
+        holder.binding.productNameTV.text = itemData?.name
+        holder.binding.weightMTV.text = itemData?.productInfo?.get(0)?.displayUnit ?: ""
+        holder.binding.memberPriceTextMTV.text = memberPrice
+        holder.binding.amountMTV.text = amount
 
     }
 }

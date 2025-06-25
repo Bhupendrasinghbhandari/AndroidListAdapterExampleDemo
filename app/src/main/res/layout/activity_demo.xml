@@ -13,8 +13,42 @@
         android:layout_height="match_parent"
         tools:context=".ui.DemoActivity">
 
-
+        <!-- Left: Vertical Category Tabs -->
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryTabRV"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Green indicator -->
+        <View
+            android:id="@+id/categoryIndicator"
+            android:layout_width="4dp"
+            android:layout_height="45dp"
+            android:visibility="gone"
+            android:layout_marginStart="66dp"
+            android:background="@drawable/green_background_view"
+            android:translationY="0dp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Right: Vertical ViewPager2 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/productViewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/categoryTabRV"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+<!--        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/demoRV1"
             android:layout_width="0dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +72,7 @@
             tools:itemCount="30"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

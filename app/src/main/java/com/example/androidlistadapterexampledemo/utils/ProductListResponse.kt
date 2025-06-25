@@ -364,7 +364,7 @@ data class ProductListResponse(
                 @SerializedName("include_member_for_charges")
                 val includeMemberForCharges: Boolean? = false,
                 @SerializedName("order_amount_from")
-                val orderAmountFrom: Int? = 0,
+                val orderAmountFrom: Double? = 0.0,
                 @SerializedName("order_amount_to")
                 val orderAmountTo: Int? = 0,
                 @SerializedName("packaging_charge_review_cart_text")

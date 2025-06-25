@@ -37,6 +37,10 @@ fun View.show() {
     this.visibility = View.VISIBLE
 }
 
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
+}
+
 fun View.gone() {
     this.visibility = View.GONE
 }
@@ -49,7 +53,10 @@ fun ImageView.loadImage(url: String?) {
                 .placeholder(R.drawable.countrydelight)
                 .error(R.drawable.countrydelight)
                 .centerCrop()
+                .override(200, 200) // use actual ImageView size
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         )
+        .thumbnail(0.1f)
         .into(this)
 }
 

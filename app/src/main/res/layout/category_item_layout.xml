@@ -9,50 +9,56 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintCL"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_height="@dimen/_78sdp">
+        android:background="@color/white"
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/categoryIV"
-            android:layout_width="@dimen/_45sdp"
-            android:layout_height="@dimen/_45sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-            app:srcCompat="@drawable/countrydelight" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/weightMTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
             android:gravity="center"
-            android:text="Fruits"
-            android:maxLines="2"
-            android:layout_marginHorizontal="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_7ssp"
-            app:layout_constraintTop_toBottomOf="@+id/categoryIV"
-            app:layout_constraintStart_toStartOf="@+id/categoryIV"
-            app:layout_constraintEnd_toEndOf="@+id/categoryIV"
-            />
+            android:layout_height="match_parent">
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/categoryIV"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                app:srcCompat="@drawable/countrydelight" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/weightMTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:text="asdsadf"
+                android:maxWidth="40dp"
+                android:maxLines="1"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="6sp"
+                />
+
+        </LinearLayout>
 
         <View
-            android:id="@+id/selectedViewVW"
-            android:layout_width="@dimen/_4sdp"
+            android:id="@+id/categoryIndicator"
+            android:layout_width="3dp"
             android:layout_height="0dp"
-            android:visibility="gone"
-            android:layout_marginVertical="@dimen/_12sdp"
-            android:background="@drawable/green_background_view"
+            android:layout_marginVertical="12dp"
+            android:layout_gravity="end"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/_minus1sdp"
+            android:background="@drawable/green_background_view"
+            android:translationY="0dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/_minus2sdp"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-
+            android:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

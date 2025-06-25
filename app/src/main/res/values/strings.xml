@@ -7,4 +7,5 @@
     <string name="timeoutErr_">Failed To connect To server. Sorry There Was An Error Please Try Again.</string>
     <string name="noInternetErr">Please check your internet connection and try again.</string>
     <string name="your_account_login">Your account has been logged into another device..</string>
+    <string name="add_similar_items">Add Similar Items</string>
 </resources>

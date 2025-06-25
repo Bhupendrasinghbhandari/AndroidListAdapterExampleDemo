@@ -10,13 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.datinggazm.utils.intentComponent
 import com.example.androidlistadapterexampledemo.R
 import com.example.androidlistadapterexampledemo.databinding.ActivityMainBinding
 import com.example.androidlistadapterexampledemo.retrofit.handleResponse
-import com.example.androidlistadapterexampledemo.utils.ProductListResponse
 import com.example.androidlistadapterexampledemo.utils.ProductListResponse.CategoryData.ProductVariantInfo
 import com.example.androidlistadapterexampledemo.utils.getCurrentFormattedDate
+import com.example.androidlistadapterexampledemo.utils.gone
 import com.example.androidlistadapterexampledemo.utils.show
 import com.example.androidlistadapterexampledemo.viewModal.CategoryListAdapter
 import com.example.androidlistadapterexampledemo.viewModal.HomeProductAdapter
@@ -42,13 +41,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        intentComponent(DemoActivity::class.java, null)
+//        intentComponent(DemoActivity::class.java, null)
         initAdapter()
-        observer()
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.currentDate = getCurrentFormattedDate()
             viewModel.getProductList()
         }
+        observer()
         onClickView()
     }
 
@@ -56,14 +55,20 @@ class MainActivity : AppCompatActivity() {
     private fun observer() {
         lifecycleScope.launch {
             viewModel.mutableLogInOrSignUpResponse.collectLatest {
+                Log.i("MY_LOG_TAG", "observer: ")
                 handleResponse(response = it, context = this@MainActivity, success = { response ->
                     if (!response.categoryDataList.isNullOrEmpty()) {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            viewModel.categoryList =
-                                response.categoryDataList as ArrayList<ProductListResponse.CategoryData>
-                            viewModel.categoryListAdapter.submitList(viewModel.categoryList)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            for (i in response.categoryDataList.indices) {
+                                viewModel.categoryList.add(response.categoryDataList[i])
+
+                            }
+                            withContext(Dispatchers.Main) {
+                                viewModel.categoryListAdapter.submitList(viewModel.categoryList)
+                            }
                             filterAndHandleItem()
                         }
+//                        viewModel.categoryListAdapter.submitList(viewModel.categoryList)
                     } else {
                         viewModel.categoryListAdapter.submitList(arrayListOf())
                     }
@@ -75,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun filterAndHandleItem() {
         CoroutineScope(Dispatchers.IO).launch {
+//            delay(400)
             for (i in viewModel.categoryList.indices) {
                 val productListItem =
                     viewModel.categoryList[i].productVariantInfo as ArrayList<ProductVariantInfo>
@@ -96,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    var clickedItem = 0
     private fun initAdapter() {
         lifecycleScope.launch {
             val layoutManager = LinearLayoutManager(this@MainActivity)
@@ -103,100 +110,99 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerRV.layoutManager = layoutManager
             binding.recyclerRV.setHasFixedSize(true)
             binding.recyclerRV.adapter = viewModel.productAdapter
-
             binding.recyclerRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-
                     val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val firstVisiblePos = layoutManager.findFirstVisibleItemPosition()
-
                     if (firstVisiblePos != RecyclerView.NO_POSITION) {
-                        val currentProduct =
-                            viewModel.productAdapter.currentList[firstVisiblePos].productInfo?.get(0)?.categoryId
-                        handleScrollWhileUsingScroll(currentProduct)
-                    }
-                }
-            })
-
-
-            viewModel.categoryListAdapter = CategoryListAdapter()
-            binding.categoryRV.adapter = viewModel.categoryListAdapter
-            viewModel.categoryListAdapter.onCategoryClicked = { clickedItemData, position ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    delay(1000)
-                    clickedItemData.categoryId?.let { handleProductListScrollingBasedOnCategoryID(it) }
-                }
-                CoroutineScope(Dispatchers.Main).launch {
-
-                    binding.categoryRV.post {
-                        val layoutManager = binding.categoryRV.layoutManager as LinearLayoutManager
-                        val view = layoutManager.findViewByPosition(position)
-                        binding.categoryIndicator.show()
-                        view?.let {
-                            val targetY = it.top.toFloat()
-                            binding.categoryIndicator.animate()
-                                .translationY(targetY)
-                                .translationY(targetY)
-                                .setInterpolator(DecelerateInterpolator())
-                                .setDuration(500)
-                                .start()
-                        }
-                    }
-                }
-
-                binding.categoryRV.smoothScrollToPosition(position)
-            }
-
-            binding.categoryRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                    val firstVisiblePos = layoutManager.findFirstVisibleItemPosition()
-
-                    if (firstVisiblePos != RecyclerView.NO_POSITION) {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            binding.categoryRV.post {
-                                val layoutManager =
-                                    binding.categoryRV.layoutManager as LinearLayoutManager
-                                val view = layoutManager.findViewByPosition(
-                                    viewModel.categoryListAdapter.selectedPosition ?: 0
+                        if (clickedItem != -1) {
+                            if (viewModel.categoryListAdapter.selectedItemCategoryID !=
+                                viewModel.categoryListAdapter.currentList[clickedItem].categoryId
+                            ) {
+                                viewModel.categoryListAdapter.selectedIndex = clickedItem
+                                viewModel.categoryListAdapter.updateItemSelectedPosition(
+                                    clickedItem
                                 )
-                                binding.categoryIndicator.show()
-                                view?.let {
-                                    val targetY = it.top.toFloat()
-                                    binding.categoryIndicator.animate()
-                                        .translationY(targetY)
-                                        .translationY(targetY)
-                                        .setInterpolator(DecelerateInterpolator())
-                                        .setDuration(500)
-                                        .start()
-                                }
+
+                            }
+                        } else {
+                            val currentProduct = viewModel.productAdapter.currentList[firstVisiblePos].productInfo?.get(0)
+
+                            if (viewModel.categoryListAdapter.selectedItemCategoryID !=
+                                currentProduct?.categoryId
+                            ) {
+                                handleScrollWhileUsingScroll(currentProduct?.categoryId)
                             }
                         }
-                        binding.categoryRV.smoothScrollToPosition(viewModel.categoryListAdapter.selectedPosition)
+                    }
+                }
 
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                        val firstVisiblePos = layoutManager.findFirstVisibleItemPosition()
+
+                        if (firstVisiblePos != RecyclerView.NO_POSITION) {
+                            if (clickedItem != -1) {
+                                viewModel.categoryListAdapter.selectedIndex = clickedItem
+                                clickedItem = -1
+                                viewModel.categoryListAdapter.notifyDataSetChanged()
+                            } else {
+                                val currentProduct =
+                                    viewModel.productAdapter.currentList[firstVisiblePos].productInfo?.get(
+                                        0
+                                    )
+                                Log.i(
+                                    "SCROLL_POSITION_HANDLING",
+                                    "recyclerRV-onScrolled: ${currentProduct?.name}"
+                                )
+
+                                handleScrollWhileUsingScroll(currentProduct?.categoryId)
+                            }
+                        }
                     }
                 }
             })
+            viewModel.categoryListAdapter = CategoryListAdapter()
+            binding.categoryRV.adapter = viewModel.categoryListAdapter
+            viewModel.categoryListAdapter.onCategoryClicked =
+                { selectedItem, position ->
+                    CoroutineScope(Dispatchers.Main).launch {
+                        clickedItem = position
+                        selectedItem.categoryId?.let {
+                            handleProductListScrollingBasedOnCategoryID(
+                                it
+                            )
+                        }
+                    }
+                }
         }
     }
 
 
-    private fun handleProductListScrollingBasedOnCategoryID(categoryId: Int) {
-        var currentItemPosition = 0
-        for (i in viewModel.productList.indices) {
-            if (viewModel.productList[i].productInfo?.get(0)?.categoryId == categoryId) {
-                currentItemPosition = i
-                Log.i("MY_LOG_TAG",
-                    "handleProductListScrollingBasedOnCategoryID: $currentItemPosition"
+    private suspend fun handleProductListScrollingBasedOnCategoryID(categoryId: Int) {
+        withContext(Dispatchers.IO) {
+            var currentItemPosition = 0
+            for (i in viewModel.productList.indices) {
+                if (viewModel.productList[i].productInfo?.get(0)?.categoryId == categoryId) {
+                    currentItemPosition = i
+                    Log.i(
+                        "MY_LOG_TAG",
+                        "handleProductListScrollingBasedOnCategoryID: $currentItemPosition"
+                    )
+                    break
+                }
+            }
+            withContext(Dispatchers.Main) {
+                Log.i(
+                    "MY_LOG_TAG",
+                    "selectedPosition: $currentItemPosition"
                 )
-                break
+                binding.recyclerRV.smoothScrollToPosition(currentItemPosition)
             }
         }
-//        withContext(Dispatchers.Main) {
-//            binding.recyclerRV.scrollToPosition(currentItemPosition)
-//        }
     }
 
     fun handleScrollWhileUsingScroll(currentProduct: Int?) {
@@ -207,6 +213,8 @@ class MainActivity : AppCompatActivity() {
                 break
             }
         }
+        viewModel.categoryListAdapter.selectedIndex = position
+        viewModel.categoryListAdapter.notifyDataSetChanged()
         CoroutineScope(Dispatchers.Main).launch {
             binding.categoryRV.post {
                 val layoutManager = binding.categoryRV.layoutManager as LinearLayoutManager
@@ -221,6 +229,7 @@ class MainActivity : AppCompatActivity() {
                         .setDuration(500)
                         .start()
                 }
+                binding.categoryIndicator.gone()
             }
         }
         binding.categoryRV.smoothScrollToPosition(position)
